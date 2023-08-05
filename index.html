@@ -1,0 +1,193 @@
+<!doctype html>
+<!-- TODO: revert back to tabs from https://github.com/hakimel/reveal.js/blob/master/index.html -->
+<!-- This file is based on https://github.com/hakimel/reveal.js/blob/master/index.html. It uses TABS
+and NO SPACES for indentation, because that's how the original file was. Keeping them as tabs makes
+it easier to compare/update. However, this uses a customized theme from
+https://github.com/peter-kehl/reveal.js.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- 
+            Viewing this from other than (any project under) https://github.com/peter-kehl? Then
+            clone the following next to this repository and enable GitHub Pages for all of them:
+            - https://github.com/peter-kehl/reveal.js (until TODO is completed)
+            - https://github.com/peter-kehl/present_markdown_reveal.js
+            - https://github.com/rajgoel/reveal.js-plugins
+            - https://github.com/ranging-rs/with_heap
+            - https://github.com/befocken/revealjs-embed-code
+            - https://denehyg.github.io/reveal.js-menu
+        -->
+        <!-- See and give thumbs up to https://github.com/hakimel/reveal.js/issues/175 -->
+        <meta name="viewport" content="width=device-width, user-scalable=yes">
+        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+
+        <title>no_std libraries in Rust</title>
+
+        <!-- 
+            Clone https://github.com/peter-kehl/reveal.js/ next to this repo and enable GitHub Pages
+            for it. Do not use the (original) https://github.com/rajgoel/reveal.js-plugins until
+            https://github.com/rajgoel/reveal.js-plugins/issues/154 is resolved. And give this issue
+            thums up, please.
+        -->
+        <!--
+            Unsure if we need ../reveal.js/dist/reset.css. Both
+            - https://github.com/hakimel/reveal.js/blob/master/index.html and
+            - https://github.com/hakimel/reveal.js/blob/master/demo.html
+
+            use it. But https://revealjs.com/markup/ doesn't say to use it. It doesn't seem to
+            matter.
+        -->
+        <link rel="stylesheet" href="../reveal.js/dist/reset.css">
+
+        <link rel="stylesheet" href="../reveal.js/dist/reveal.css">
+        <!-- 
+            Keep theme & highlight-theme in sync with one of "themes:" configuration entries for
+            "menu" plugin below.
+        -->
+        <!-- If we loaded several themes, the one loaded last becomes the default.
+
+https://github.com/denehyg/reveal.js-menu replaces that initial theme with any of the built-in
+themes that the user chooses. (reveal.js-menu needs "id" here.)
+        -->
+        <link rel="stylesheet"
+        href="../reveal.js/dist/theme/black_contrast_compact_verbatim_headers.css" id="theme">
+
+        <!-- Theme used for syntax highlighted code. (reveal.js-menu needs "id" here.)
+        -->
+        <link rel="stylesheet"
+        href="https://highlightjs.org/static/demo/styles/base16/windows-high-contrast.css"
+        id="highlight-theme">
+
+        <link rel="stylesheet" href="../present_markdown_reveal.js/style.css">
+        <style type="text/css">
+            .tours, .bookmarks {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <!-- TODO DOCUMENT: if a <section> has no (visible) content, it will still show at
+                    least one slide!
+                -->
+                <section>
+                    <!-- This is intentionally NOT in a Markdown file, so that it shows up even if
+this file is loaded directly from a filesystem (rather through a webserver).
+                    -->
+					<h1>no_std libraries in Rust</h1>
+                    <p>
+                        Alternative navigation:
+                    </p>
+                    <ul>
+                        <li class="hide_on_github_pages">
+                            See the <a href="https://peter-kehl.github.io/no_std_libs/">original
+                            presentation online</a>.
+                        </li>
+						<li class="hide_with_web_server">
+                            Suggest you access this file (<code>index.html</code>) NOT from a
+                            filesystem, but through a webserver instead. For an example of how, see
+						    <code>python3 -m http.server</code> and more instruction in
+						    <code>README-NAVIGATE-SLIDES.md</code>
+                            <span class="hide_on_github_pages">
+                                in a <a
+                                href="../present_markdown_reveal.js/README-NAVIGATE-SLIDES.md">local
+                                (neighbor) clone</a> of
+						        <a
+						        href="https://github.com/peter-kehl/present_markdown_reveal.js">present_markdown_reveal.js</a>
+						        (if you cloned it next to this clone) or
+                            </span>
+                            <a
+                            href="https://github.com/peter-kehl/present_markdown_reveal.js/blob/main/README-NAVIGATE-SLIDES.md">on
+                            GitHub</a>. The actual presentation content starts in <a
+                            href="README.md"><code>README.md</code></a>.
+                        </li>
+                        <!--
+						<li>
+                            See <code>README-NAVIGATE-VS_CODE-CODETOUR.md</code>
+                            <span class="hide_on_github_pages">
+                                in a <a
+                                href="../present_markdown_reveal.js/README-NAVIGATE-VS_CODE-CODETOUR.md">local
+                                (neighbor) clone</a> of <a
+                                href="https://github.com/peter-kehl/present_markdown_reveal.js">present_markdown_reveal.js</a>
+						        (if you cloned it next to this clone) or
+                            </span>
+                            <a
+                            href="https://github.com/peter-kehl/present_markdown_reveal.js/blob/main/README-NAVIGATE-VS_CODE-CODETOUR.md">on
+                            GitHub</a>
+						    for navigation with VS Code extension `CodeTour`.
+                        </li>
+                        -->
+                        <li>
+                            See video recording(s)
+                            <span class="hide_on_github_pages">
+                                in a <a href="../no_std_libs-videos">local (neighbor) clone</a> of
+                                <a
+                                href="https://github.com/peter-kehl/no_std_libs-videos"><code>no_std_libs-videos</code></a>
+                                (if you cloned it next to this clone) or see them
+                            </span>
+                            on <a href="https://github.com/peter-kehl/no_std_libs-videos">GitHub</a>
+                            or on <a href="https://www.youtube.com/@peter-kehl">YouTube</a>.
+                        </li>
+					</ul>
+                </section>
+                <!--
+                    If we wanted to show content of
+                    ../present_markdown_reveal.js/README-NAVIGATE-VS_CODE-CODETOUR.md, we'd make the
+                    following <section> have id="SECTION-BEFORE-NAVIGATE-WITH-CODETOUR".
+
+                    Side note: That id="SECTION-BEFORE-NAVIGATE-WITH-CODETOUR" would disappear/get
+                    replaced by the "id" of the first slide from
+                    ../present_markdown_reveal.js/README-NAVIGATE-SLIDES.md. However, before it
+                    would get replaced, it would serve to inject
+                    ../present_markdown_reveal.js/README-NAVIGATE-VS_CODE-CODETOUR.md (but only when
+                    seen on a desktop).
+                -->
+                <section
+                data-markdown="../present_markdown_reveal.js/README-NAVIGATE-SLIDES.md"></section>
+                <section data-markdown="README.md" data-separator-notes="^SpeakerNote:"></section>
+            </div>
+        </div>
+        <!-- 
+            https://github.com/peter-kehl/present_markdown_reveal.js next to this repo and enable
+            GitHub Pages for it.
+        -->
+        <script type="text/javascript">
+            "use strict";
+            
+            // For ../present_markdown_reveal.js/script.js TODO test if we infer/extract the 2nd
+            // part when on of GitHub Pages
+            var code_github_repo = "ranging-rs/slicing-rs";
+        </script>
+
+        <script src="../reveal.js/dist/reveal.js"></script>
+
+        <!-- 
+            The following JS order may not matter, but let's keep it the same as in
+            `reveal_js_config()` in ../present_markdown_reveal.js/script.js.
+        -->
+        <script src="../reveal.js/plugin/markdown/markdown.js"></script>
+        <script src="../reveal.js-plugins/anything/plugin.js"></script>
+        <script src="../revealjs-embed-code/embed-code.js"></script>
+        <script src="../reveal.js/plugin/highlight/highlight.js"></script>
+        <script src="../reveal.js-menu/menu.js"></script>
+        <script src="../reveal.js/plugin/search/search.js"></script>
+        
+        <!-- On top of the "essential" plugins. -->
+        <script src="../reveal.js/plugin/notes/notes.js"></script>
+
+        <script src="../present_markdown_reveal.js/script.js"></script>
+        <script type="text/javascript">
+            "use strict";
+
+            present_markdown_reveal_before_ini();
+            var config = present_markdown_reveal_get_config();
+            config.plugins.push(RevealNotes);
+            Reveal.initialize( config );
+            present_markdown_reveal_after_ini();
+        </script>
+    </body>
+</html>
