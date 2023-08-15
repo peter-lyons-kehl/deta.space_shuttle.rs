@@ -74,9 +74,11 @@ which we skip here for brevity.
 
 # Deta.Space Qualities
 
+
 - mesh design
-  - an application can consist of up to five "micros" (computes). Each can be developed in any of
-    the supported languages.
+  - an application can consist of up to five
+    ["micros"](https://deta.space/docs/en/build/fundamentals/the-space-runtime/micros) (computes).
+    Each can be developed in any of the supported languages.
   - suitable if we want to add access control on top of/in front of an existing/3rd party codebase
     (installed as a part of your application). We can create a "proxy" that performs access control.
     It then forwards the request to the other (existing/3rd party) application. That is deployed on
@@ -87,21 +89,29 @@ which we skip here for brevity.
   the code a little bit more portable. But then you couldn't store data with Deta.Base/Deta.Store
   (see below).
 - [Rust bindings for Deta API](https://github.com/jnsougata/deta-rust-sdk) are only unofficial.
-- Rust support is new. There are only a few examples of Rust applications so far. But they are growing!
-- not with PostgreSQL/MySQL... unless you use a pool manager
-- not for background/long tasks (specifically: not for Discord bots)
+- Rust support is new. There are only a few examples of Rust applications so far. But they are
+  growing!
+- [not with PostgreSQL/MySQL... unless you use a pool
+  manager](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
+- [not for background/long
+  tasks](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
+  (specifically: not for Discord bots)
 - database & storage provided by the platform is only through their own NoSQL (Deta.Base) and their
   own storage (Deta.Store) API. If you use those, the source code is not portable. (Unless you
   create traits or wrappers. Such abstractions are a part of good design. But they add complexity
   when creating them, and even more so when maintaining.)
 - data isolation: if using Deta.Base or Deta.Store, this data is separate per instance owner
 - data provisioning: automatic
+- `/tmp` (and seemingly `/dev/shm`, too)
 - AWS billing? Or other/private clouds?
 - subdomain anonymization promotes/suggests using each instance only by its owner. If the
   application is for public, the users can "fork" their own instances.
-- `/tmp` (and seemingly `/dev/shm`, too)
-- app marketplace & commercial model: We can share free applications. Deta.Space is also planning an
-  option of applications to be paid and to generate revenue for the developer.
+- instance owner base is wider than "innovating"/hard core developer base. In other words, it's easy
+  to have your own/separate deployment of an application that someone else published on Deta.Space,
+  without developer skills.
+- App Marketplace & commercial model: App Marketplace promotes sharing free applications. Deta.Space
+  is also planning an option of applications to be paid so they would generate revenue for the
+  developer.
 
 SpeakerNote: Before we compare these platforms feature by feature, let's look at features unique to
 one and then the other. Hopefully then the comparison will make more sense.
@@ -110,9 +120,6 @@ one and then the other. Hopefully then the comparison will make more sense.
 
 ## Shuttle.rs Qualities
 
-- developer base is the same as the instance owner base
-- not promoting/targeting sharing (clones) of applications. Of course, developers are free to
-  publish their code (on GIT or similar) so that others could deploy it on Shuttle.rs, too.
 - suitable for background/long tasks (for example: for Discord bots). "No cold-start and can even
   have long-running threads" - see [FAQ](https://docs.shuttle.rs/support/faq) > "How does this
   differ from using serverless framework with Rust Lambda and provided runtime?"
@@ -121,8 +128,13 @@ one and then the other. Hopefully then the comparison will make more sense.
 - PostgreSQL and steps for its provisioning, migrations/updates
 - any NoSQL, and if so, is it provisioned automatically?
 - no `/tmp`; only `/dev/shm`
-- commercial model: For users with more than 5? applications. But, if you become a Shuttle.rs hero,
-  it's free for life!
+- not promoting/targeting sharing (clones) of applications. Of course, developers are free to
+  publish their code (on GIT or similar) so that others could deploy it on Shuttle.rs, too.
+- instance owner base is the same as "innovating" developer base. In other words, if you want your
+  own/separate deployment of an application that someone else published (on GIT...), you need more
+  developer skills than with Deta.Space.
+- commercial model: For users with more than 5? applications. But, if you [become a Shuttle.rs
+  hero](https://www.shuttle.rs/shuttle-heroes), it's free for life!
 
 ---
 
@@ -131,16 +143,16 @@ one and then the other. Hopefully then the comparison will make more sense.
 This also includes other technical differences, if they seem to be a part of the platform's
 design/architecture.
 
-|   | Shuttle.rs | Deta.Space |
+| Property/Limit  | Shuttle.rs | Deta.Space |
 | --- | --- | --- |
-| application/"micro" size | unspecified | [250MB](https://deta.space/docs/en/build/quick-starts/custom) |
+| application/"micro" size | unspecified | [250MB](https://deta.space/docs/en/build/quick-starts/custom) per micro |
 | execution timeout | unspecified | [20s](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
 | RAM per execution | unclear | [250MB](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
-| RAM per container | [6GB](https://docs.shuttle.rs/introduction/how-shuttle-works) (4GB during high contention - very rare, see [FAQ](https://docs.shuttle.rs/support/faq) > "What happens when I create a project?") | unclear |
-| `/dev/shm` and/or `/tmp` | unspecified (64MB as per `df -m`) | [512MB](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
+| RAM per container | [6GB](https://docs.shuttle.rs/introduction/how-shuttle-works) (4GB during high contention: very rare, see [FAQ](https://docs.shuttle.rs/support/faq) > "What happens when I create a project?") | unclear |
+| `/dev/shm` and/or `/tmp` | unspecified ([64MB as per `df -m`](https://sys-info.shuttleapp.rs/)) | [512MB](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
 | processes/threads | [4 threads per project](https://docs.shuttle.rs/introduction/how-shuttle-works) | [1024](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
 | HTTP payload | unspecified | [5.5MB](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
-| database and/or object storage | 10GB | unspecified |
+| database and/or object storage | [10GB](https://docs.shuttle.rs/introduction/how-shuttle-works#project-limitations) | unspecified |
 | regions | [eu-west](https://github.com/shuttle-hq/shuttle-docs/issues/162) and more planned | unspecified |
 
 SpeakerNote:
