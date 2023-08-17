@@ -63,9 +63,6 @@ which we skip here for brevity.
 
 - local development on Linux, Mac OS & Windows
 - easy deployment on the respective platform's cloud, in a Docker-like Linux container
-- the deployed application can be private (for the developer only), or public
-- the developer can deploy an unpublished (test) version of a public application. Such a version is
-  visible only to her/him.
 - no way to run `su`/`sudo` (or not documented), nor to customize at Docker level (for example: to
   access remote storage by mounting FUSE file systems)
 - support & community on their Discord servers
@@ -74,7 +71,13 @@ which we skip here for brevity.
 
 # Deta.Space Features
 
-
+- the deployed application can be private (for the developer only), or public ("published")
+- even if the application is public, the developer can deploy an unpublished (test) version of that
+  public application. Such a version is visible only to her/him
+- a public (published) application can still have parts which are private
+-  to access a private application, or private URLs of a public application, the appliction owner is
+   authenticated by Deta.Space. (Deta authenticates the user through AWS, and it [doesn't have
+   access to her/his password](https://deta.space/privacy).)
 - mesh design
   - Mesh of micros: An application can consist of up to five
     ["micros"](https://deta.space/docs/en/build/fundamentals/the-space-runtime/micros) (computes).
