@@ -59,7 +59,7 @@ which we skip here for brevity.
 
 ---
 
-# Shared Qualities
+# Shared Features
 
 - local development on Linux, Mac OS & Windows
 - easy deployment on the respective platform's cloud, in a Docker-like Linux container
@@ -72,27 +72,30 @@ which we skip here for brevity.
 
 ---
 
-# Deta.Space Qualities
+# Deta.Space Features
 
 
 - mesh design
-  - an application can consist of up to five
+  - Mesh of micros: An application can consist of up to five
     ["micros"](https://deta.space/docs/en/build/fundamentals/the-space-runtime/micros) (computes).
     Each can be developed in any of the supported languages.
-  - suitable if we want to add access control on top of/in front of an existing/3rd party codebase
+  - Suitable if we want to add access control on top of/in front of an existing/3rd party codebase
     (installed as a part of your application). We can create a "proxy" that performs access control.
-    It then forwards the request to the other (existing/3rd party) application. That is deployed on
-    another micro that is not public.
+    It then forwards the request to the other (existing/3rd party) application instance, deployed in
+    another micro. (Such a micro would not be public.) We can proxy for example with
+    [warp_reverse_proxy](https://docs.rs/warp-reverse-proxy).
+  - Mesh of languages/frameworks: Each micro within the same application can use any of the
+    supported languages/frameworks.
 - Rust applications don't get special handling. Instead, Rust micros have "custom" type.
-- no restrictions on Rust version
 - No special Rust crates/macros or code, other than getting the basic configuration. That can make
-  the code a little bit more portable. But then you couldn't store data with Deta.Base/Deta.Store
-  (see below).
+  the code a little bit more portable/flexible. But then you couldn't store data with
+  Deta.Base/Deta.Store (see below).
 - [Rust bindings for Deta API](https://github.com/jnsougata/deta-rust-sdk) are only unofficial.
-- Rust support is new. There are only a few examples of Rust applications so far. But they are
-  growing!
 - [not with PostgreSQL/MySQL... unless you use a pool
   manager](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
+- no restrictions on Rust version, nor on crate versions
+- Rust support is new. There are only a few examples of Rust applications so far. But they are
+  growing!
 - [not for background/long
   tasks](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
   (specifically: not for Discord bots)
@@ -100,10 +103,10 @@ which we skip here for brevity.
   own storage (Deta.Store) API. If you use those, the source code is not portable. (Unless you
   create traits or wrappers. Such abstractions are a part of good design. But they add complexity
   when creating them, and even more so when maintaining.)
-- data isolation: if using Deta.Base or Deta.Store, this data is separate per instance owner
+- data isolation: if using Deta.Base or Deta.Store, this data is separate per instance owner, even
+  if you clone someone else's published Deta application
 - data provisioning: automatic
 - `/tmp` (and seemingly `/dev/shm`, too)
-- AWS billing? Or other/private clouds?
 - subdomain anonymization promotes/suggests using each instance only by its owner. If the
   application is for public, the users can "fork" their own instances.
 - instance owner base is wider than "innovating"/hard core developer base. In other words, it's easy
@@ -118,23 +121,39 @@ one and then the other. Hopefully then the comparison will make more sense.
 
 ---
 
-## Shuttle.rs Qualities
+## Shuttle.rs Features
 
 - suitable for background/long tasks (for example: for Discord bots). "No cold-start and can even
   have long-running threads" - see [FAQ](https://docs.shuttle.rs/support/faq) > "How does this
   differ from using serverless framework with Rust Lambda and provided runtime?"
+- richer storage
+  - wider variety
+  - both public/free standards (portable) and proprietary (not portable)
+  - RDS (SQL) and handling of migrations/updates
+    - Postgres (either a [shared server](https://docs.shuttle.rs/resources/shuttle-shared-db), or a
+      [dedicated instance](https://docs.shuttle.rs/resources/shuttle-aws-rds))
+    - MySQL (a [dedicated instance](https://docs.shuttle.rs/resources/shuttle-aws-rds))
+    - MariaDB (a [dedicated instance](https://docs.shuttle.rs/resources/shuttle-aws-rds))
+    - [Turso](https://docs.shuttle.rs/resources/shuttle-turso) ([distributed
+      SQLite](https://turso.tech) fork, [SQLite-compatible & with 1st class Rust
+      support](https://turso.tech/pricing)). This is currently NOT hosted by Shuttle.rs, but it may
+      be so in the future. Either way, it has a [dedicated crate from
+      Shuttle](https://docs.shuttle.rs/resources/shuttle-turso).
+  - noSQL: [MongoDB through a shared database](https://docs.shuttle.rs/resources/shuttle-shared-db)
+  - key/value: proprietary [Shuttle Persist](https://docs.shuttle.rs/resources/shuttle-persist)
+- data isolation
 - A fixed Rust version (currently `1.70`). See [FAQ](https://docs.shuttle.rs/support/faq) > "Which
-  version of Rust..."
-- PostgreSQL and steps for its provisioning, migrations/updates
-- any NoSQL, and if so, is it provisioned automatically?
+  version of Rust...". Similarly, [Turso is pinned to version
+  `0.30.1`](https://docs.shuttle.rs/resources/shuttle-turso).
 - no `/tmp`; only `/dev/shm`
 - not promoting/targeting sharing (clones) of applications. Of course, developers are free to
   publish their code (on GIT or similar) so that others could deploy it on Shuttle.rs, too.
 - instance owner base is the same as "innovating" developer base. In other words, if you want your
   own/separate deployment of an application that someone else published (on GIT...), you need more
   developer skills than with Deta.Space.
-- commercial model: For users with more than 5? applications. But, if you [become a Shuttle.rs
-  hero](https://www.shuttle.rs/shuttle-heroes), it's free for life!
+- commercial model: For users with more than 5? applications. But, the limits are not enforced yet.
+  And, if you [become a Shuttle.rs hero](https://www.shuttle.rs/shuttle-heroes), it's free for life!
+- use your [own AWS account](https://www.shuttle.rs/beta) 
 
 ---
 
@@ -152,8 +171,8 @@ design/architecture.
 | `/dev/shm` and/or `/tmp` | unspecified ([64MB as per `df -m`](https://sys-info.shuttleapp.rs/)) | [512MB](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
 | processes/threads | [4 threads per project](https://docs.shuttle.rs/introduction/how-shuttle-works) | [1024](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
 | HTTP payload | unspecified | [5.5MB](https://deta.space/docs/en/build/reference/runtime#technical-specifications-for-micros) |
-| database and/or object storage | [10GB](https://docs.shuttle.rs/introduction/how-shuttle-works#project-limitations) | unspecified |
-| regions | [eu-west](https://github.com/shuttle-hq/shuttle-docs/issues/162) and more planned | unspecified |
+| database and/or object storage | [10GB on free tier](https://docs.shuttle.rs/introduction/how-shuttle-works#project-limitations), but not enforced yet. (Plus, free for life if you become a hero.) | unspecified (but personal use is free for life) |
+| clouds/regions | AWS [eu-west](https://github.com/shuttle-hq/shuttle-docs/issues/162) and more planned. (See [FAQ](https://docs.shuttle.rs/support/faq) > Do we plan to support multiple regions?) | [AWS](https://deta.space/privacy) and potentially planning for [GCP and other clouds](https://jobs.deta.space/?ashby_jid=739b845d-17ff-475c-b05f-649801e919ad) |
 
 SpeakerNote:
 
