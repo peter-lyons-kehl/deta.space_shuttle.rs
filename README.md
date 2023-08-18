@@ -27,14 +27,14 @@ offline.
 
 # Disclaimers
 
-- This is __not__ a complete introduction to either platform. Their existing documentation is already
-  awesome. <todo>
+- This is __not__ a complete introduction to either platform. Their existing documentation is
+  already awesome. <todo>
 - Both are agile/work in progress. Especially, functionality can be ahead of the documentation. Join
   and shape it!
 - Not fully comparable. They share or differ in some features, but other features or limitations are
   unique to one or the other.
-- Most features considered here are __not__ Rust-specific. However, they affect which platform to
-  choose based on/for
+- Most features and limits considered here are __not__ Rust-specific. However, they affect which
+  platform to choose based on/for
   - an existing application or system design, or
   - a new system design, or
   - integration with non-Rust components, or
@@ -90,31 +90,39 @@ which we skip here for brevity.
   - Mesh of languages/frameworks: Each micro within the same application can use any of the
     supported languages/frameworks.
 - Rust applications don't get special handling. Instead, Rust micros have "custom" type.
+- [Rust bindings for Deta API](https://github.com/jnsougata/deta-rust-sdk) are only unofficial.
 - No special Rust crates/macros or code, other than getting the basic configuration. That can make
   the code a little bit more portable/flexible. But then you couldn't store data with
   Deta.Base/Deta.Store (see below).
-- [Rust bindings for Deta API](https://github.com/jnsougata/deta-rust-sdk) are only unofficial.
 - [not with PostgreSQL/MySQL... unless you use a pool
   manager](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
 - no restrictions on Rust version, nor on crate versions
 - Rust support is new. There are only a few examples of Rust applications so far. But they are
   growing!
-- [not for background/long
-  tasks](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
+- If you get `GLIBC` issues with Rust on Deta.Space deployment, use [`MUSL`
+  target](https://github.com/peter-kehl/sysinfo-1-s4498989.deta.app/blob/main/Spacefile-musl)
+  instead.
+- [not for: background/long tasks, Discord bots,
+  Websockets](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros)
   (specifically: not for Discord bots)
 - database & storage provided by the platform is only through their own NoSQL (Deta.Base) and their
   own storage (Deta.Store) API. If you use those, the source code is not portable. (Unless you
   create traits or wrappers. Such abstractions are a part of good design. But they add complexity
   when creating them, and even more so when maintaining.)
-- data isolation: if using Deta.Base or Deta.Store, this data is separate per instance owner, even
+- data isolation: if using Deta.Base or Deta.Store, this data is separate per instance owner - even
   if you clone someone else's published Deta application
 - data provisioning: automatic
+- [No rate-limiting logic and other IP-dependant
+  logic](https://deta.space/docs/en/build/reference/runtime#important-notes-for-micros). We can't
+  access the client IP (unless you [use Cloudflare
+  DNS](https://deta.space/docs/en/build/guides/accessing-client-ip-address  ), or any DNS/reverse
+  proxy that injects the client IP in a custom HTTP header).
 - `/tmp` (and seemingly [`/dev/shm`, too](https://sysinfo-1-s4498989.deta.app/ls))
 - subdomain anonymization promotes/suggests using each instance only by its owner. If the
   application is for public, the users can "fork" their own instances.
-- instance owners who  base is wider than "innovating"/hard core developer base. In other words, it's easy
-  to have your own/separate deployment of an application that someone else published on Deta.Space,
-  without developer skills.
+- instance owners who  base is wider than "innovating"/hard core developer base. In other words,
+  it's easy to have your own/separate deployment of an application that someone else published on
+  Deta.Space, without developer skills.
 - App Marketplace & commercial model: App Marketplace promotes sharing free applications. Deta.Space
   is also planning an option of applications to be paid so they would generate revenue for the
   developer.
@@ -126,9 +134,10 @@ one and then the other. Hopefully then the comparison will make more sense.
 
 # Shuttle.rs Features
 
-- suitable for background/long tasks (for example: for Discord bots). "No cold-start and can even
-  have long-running threads" - see [FAQ](https://docs.shuttle.rs/support/faq) > "How does this
-  differ from using serverless framework with Rust Lambda and provided runtime?"
+- Suitable for background/long tasks (for example: for Discord bots). See "No cold-start and can
+  even have long-running threads" in [FAQ](https://docs.shuttle.rs/support/faq) > "How does this
+  differ from using serverless framework with Rust Lambda and provided runtime?" Also suitable for
+  [Websockets](https://docs.shuttle.rs/tutorials/websocket-chat-app-js).
 - richer storage
   - wider variety
   - both public/free standards (portable) and proprietary (not portable)
@@ -186,8 +195,20 @@ SpeakerNote:
 | Feature | Deta.Space | Shuttle.rs |
 | ------- | ---------- | ---------- |
 |         | no stars to `***`  | no stars to `***`  |
-| private apps (authenticated through the platform) | `***` | |
-| private parts of public apps (authenticated through the platform) | `***` | |
-| mesh of computes | `***` | `*` (no specific support; you'd need to integrate them into one Rust application, and proxy/forward/invoke the secondary parts manually) |
+| private apps (authenticated through the platform) | `***` (one user only: the app instance owner) | |
+| private parts of public apps (authenticated through the platform) | `***` (one user only: the app instance owner) | |
+| mesh of computes | `***` | (no specific support; you'd need to integrate them into one Rust application, and proxy/forward/invoke the secondary parts manually) |
 | mesh of languages/frameworks | `***` | |
+| 1st class support for/primarily for/dedicated to Rust | `*` (not yet; but Deta is considering moving the internal tooling from Golang to Rust) | `***` (Rust only; custom macros for config automation...) |
+| background/long tasks/Discord bots | (specifically: no) | `***` |
+| Stability + Egonomics: Official Rust SDK/bindings | | `***` |
+| Portability > __no__ need for special crates/macros | `***` | |
+| Portability > __no__ restrictions on Rust version or channel, or crate versions | `***` | |
+| Storage > PostgreSQL/MySQL/MariaDB | (no specific support; you need a connection pool) | `***` (supported & hosted) |
+| Storage > SQLite/Turso | `*` officially read-only SQLite only; but Turso is likely to work | `***` Turso |
+| Storage > MongoDB | | `***` |
+| Storage > Proprietary NoSQL | `***` | |
+| Storage > Proprietary key-value | `***` | `***` |
+
+
 
