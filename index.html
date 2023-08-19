@@ -51,9 +51,14 @@ https://github.com/peter-kehl/reveal.js.
 
 https://github.com/denehyg/reveal.js-menu replaces that initial theme with any of the built-in
 themes that the user chooses. (reveal.js-menu needs "id" here.)
+
+We don't use black (background) theme by default (even though that's my preference), but we use
+white (background) theme by default. Otherwise, if we print to PDF (as per
+https://revealjs.com/pdf-export/) and add custom margin to the result PDF, the margin would be white
+even though the content background would be black!
         -->
         <link rel="stylesheet"
-        href="../reveal.js/dist/theme/black_contrast_compact_verbatim_headers.css" id="theme">
+        href="../reveal.js/dist/theme/white_contrast_compact_verbatim_headers.css" id="theme">
 
         <!-- Theme used for syntax highlighted code. (reveal.js-menu needs "id" here.)
         -->
