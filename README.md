@@ -17,15 +17,25 @@ for alternatives.
 
 # Rust applications on Deta.Space & Shuttle.rs
 
-[Shuttle.rs](https://www.shuttle.rs/) and [Deta.Space](https://deta.space/docs/en) are platforms for
-development and deployment of cloud applications. They both support
-[Rust](https://www.rust-lang.org/). Let's look at which one you may want.
+- Shuttle.rs [www.shuttle.rs](https://www.shuttle.rs/) and Deta.Space
+[deta.space/docs/en](https://deta.space/docs/en) are platforms for development and deployment of
+cloud applications.
+- They both support [Rust](https://www.rust-lang.org/). Let's look at which one you may want.
 
-You can see the slides [online](https://peter-kehl.github.io/deta.space_shuttle.rs/) (with a dark
-theme, too). If you [clone](https://github.com/peter-kehl/deta.space_shuttle.rs) or
-[download](https://github.com/peter-kehl/deta.space_shuttle.rs/archive/refs/heads/main.zip) them and
-follow a few steps in its `README.md`, you can also render the slides locally and offline. Of
-course, your comments or pull requests are welcome.
+<br/>
+
+## Alternative access to this content
+
+- You can see the slides online at
+[peter-kehl.github.io/deta.space_shuttle.rs](https://peter-kehl.github.io/deta.space_shuttle.rs/)
+(also with a dark theme).
+- If you clone them
+[github.com/peter-kehl/deta.space_shuttle.rs](https://github.com/peter-kehl/deta.space_shuttle.rs)
+or download them
+[https://github.com/peter-kehl/deta.space_shuttle.rs/archive/refs/heads/main.zip](https://github.com/peter-kehl/deta.space_shuttle.rs/archive/refs/heads/main.zip)
+and follow a few steps in its `README.md`, you can also render the slides locally and offline. Along
+with a PDF.
+- Of course, your comments or pull requests are welcome.
 
 ---
 
@@ -75,9 +85,11 @@ course, your comments or pull requests are welcome.
 - Features and Quantitative differences between them.
 - Let's see which platform may suit you.
 
+<br/>
+
 # Spoiler Alert
 
-I love each. So exciting.
+- I love each. So exciting.
 
 SpeakerNote: Welcome to a brief introduction & comparison of development & deploying Rust
 applications on Shuttle.rs & Deta.Space platforms. You can also read these slides with more details,
@@ -99,7 +111,7 @@ which we skip here for brevity.
 
 # Deta.Space: Cargo.toml
 
-![Cargo.toml in Deta.Space](images/04_deta_get_port_number.png)
+![Cargo.toml in Deta.Space](images/03_deta_cargo_toml.png)
 
 ---
 
@@ -383,5 +395,5 @@ SpeakerNote:
 
 - Choose based on your needs for storage, memory, parallelization, non-Rust/multiple Rust componenet
   integration, and application owner/user base models.
-- Otherwise dig deeper.
-- Thank you to both. Loving them. Let's get on cloud, Rustaceans!
+- Thank you to both. Loving them.
+- Let's get on cloud, Rustaceans!
