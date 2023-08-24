@@ -1,6 +1,9 @@
+<!-- The following directions are for "Markdownlint" VS Code extension. See
+  https://github.com/DavidAnson/vscode-markdownlint -->
+<!-- markdownlint-disable MD013 -->
 <!-- markdownlint-disable MD024 -->
 <!-- markdownlint-disable MD025 -->
-<!-- markdownlint-disable MD013 -->
+<!-- markdownlint-disable MD033 -->
 <!-- The following comment hides this section from being shown by
      https://peter-kehl.github.io/deta.space_shuttle.rs.
 -->
@@ -82,6 +85,8 @@ with a PDF.
     - [tmpwdav-1-q0047082.deta.app](https://tmpwdav-1-q0047082.deta.app/) & its
       [source](https://github.com/scale-rs/tmpwdav-1-q0047082.deta.app) using Warp (which is based
       on Hyper)
+      - I will publish my Firefox bookmarks & highlights on Rust, Shuttle.rs and Deta.Space on this
+        WebDAV server soon. Check here for an update.
 - Features and Quantitative differences between them.
 - Let's see which platform may suit you.
 
@@ -369,7 +374,7 @@ SpeakerNote:
 
 | Feature | Deta.Space | Shuttle.rs |
 | ------- | ---------- | ---------- |
-| Stability + Egonomics: Official Rust SDK/bindings | unofficial only | `***` |
+| Stability + Ergonomics: Official Rust SDK/bindings | unofficial only | `***` |
 | Portability > __no__ need for special crates/macros | `***` | |
 | Portability > __no__ restrictions on Rust version or channel, or crate versions | `***` | |
 | Storage > PostgreSQL/MySQL/MariaDB | (no specific support; you need a connection pool) | `***` (supported & hosted) |
@@ -393,7 +398,7 @@ SpeakerNote:
 
 # Summary
 
-- Choose based on your needs for storage, memory, parallelization, non-Rust/multiple Rust componenet
+- Choose based on your needs for storage, memory, parallelization, non-Rust/multiple Rust component
   integration, and application owner/user base models.
 - Thank you to both. Loving them.
 - Let's get on cloud, Rustaceans!
